@@ -2,7 +2,7 @@ name: Automate Script
 
 on:
   schedule:
-    - cron: "0 15 * * MON"  # Change the schedule as needed
+    - cron: "0 22 * * FRI"  # Change the schedule as needed
 
 jobs:
   run:
