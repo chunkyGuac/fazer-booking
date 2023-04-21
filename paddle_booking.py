@@ -3,9 +3,11 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-from webdriver_manager.chrome import ChromeDriverManager, ChromeType
+from webdriver_manager.chrome import ChromeDriverManager
 
-driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.GOOGLE, log_level='0', print_first_line=False).install())
+chrome_version = '95.0.4638'
+driver = webdriver.Chrome(ChromeDriverManager(version=chrome_version).install())
+
 from dotenv import load_dotenv
 
 load_dotenv()
