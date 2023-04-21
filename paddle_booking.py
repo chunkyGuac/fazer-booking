@@ -3,18 +3,10 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager, ChromeType
 
 chrome_version = '95.0.4638'
-driver = webdriver.Chrome(ChromeDriverManager(version=chrome_version).install())
-
-from dotenv import load_dotenv
-
-load_dotenv()
-
-from selenium.webdriver.chrome.options import Options
-
-options = Options()
+options = webdriver.ChromeOptions()
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-extensions")
@@ -24,14 +16,17 @@ options.add_argument("--remote-debugging-port=9222")
 options.add_argument("--window-size=1920,1080")
 options.add_argument("--start-maximized")
 
-driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.GOOGLE, log_level='0', print_first_line=False).install(), options=options)
+driver = webdriver.Chrome(
+    executable_path=ChromeDriverManager(chrome_type=ChromeType.GOOGLE, version=chrome_version).install(),
+    options=options)
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Replace with your email and password
 email = os.environ["COURT_BOOKING_EMAIL"]
 password = os.environ["COURT_BOOKING_PASSWORD"]
-
-# Use ChromeDriverManager to automatically handle the path to the ChromeDriver
-driver = webdriver.Chrome(ChromeDriverManager().install())
 
 def book_court():
     driver.get("https://app.playbypoint.com/users/sign_in")
@@ -65,30 +60,4 @@ def book_court():
     time.sleep(1)
 
     # Select court
-    #driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[2]/div[1]/div[4]/div/div/button[4]").click()
-    #time.sleep(2)
-
-    # Continue to next step
-    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[2]/div[2]/div[2]").click()
-    time.sleep(2)
-
-    # Change the number of players to 1
-    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[2]/div[2]/table/tbody/tr/td[2]/div[1]/div[1]/div/div/button[1]").click()
-    time.sleep(1)
-
-    # Continue to next step
-    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[2]/div[2]/table/tbody/tr/td[2]/div[2]/div").click()
-    time.sleep(2)
-
-    # Uncheck Smart Selection
-    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[3]/div[2]/table/tbody/tr/td[2]/div[1]/div[1]/div[1]/div/span[5]/div").click()
-    time.sleep(1)
-
-    # Book the court
-    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[3]/div[2]/table/tbody/tr/td[2]/div[1]/div[4]/div/div/div/button").click()
-    time.sleep(5)
-
-    driver.quit()
-
-if __name__ == "__main__":
-    book_court()
+    #driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[2]/div[1]/div[4
