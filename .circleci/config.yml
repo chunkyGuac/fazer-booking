@@ -1,0 +1,29 @@
+version: 2.1
+
+jobs:
+  run_script:
+    docker:
+      - image: circleci/python:3.9
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+      - run:
+          name: Run script
+          command: python paddle_booking.py
+
+workflows:
+  version: 2
+  scheduled_workflow:
+    triggers:
+      - schedule:
+          cron: "56 21 * * 5" # Scheduled to run every Friday at 1:40 PM PDT
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - run_script
