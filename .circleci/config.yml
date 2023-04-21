@@ -1,29 +1,41 @@
 version: 2.1
 
 jobs:
-  run_script:
+  build:
+    working_directory: ~/repo  # Change this line
     docker:
-      - image: circleci/python:3.9
+      - image: circleci/python:3.10
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: |
-            python -m pip install --upgrade pip
+            python3 -m venv venv
+            . venv/bin/activate
             pip install -r requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
           name: Run script
-          command: python paddle_booking.py
+          command: |
+            . venv/bin/activate
+            python3 paddle_booking.py
 
 workflows:
   version: 2
-  scheduled_workflow:
+  commit-and-scheduled:
+    jobs:
+      - build
     triggers:
       - schedule:
-          cron: "00 22 * * 5" # Scheduled to run every Friday at 1:40 PM PDT
+          cron: "8 21 * * 5"
           filters:
             branches:
               only:
                 - main
-    jobs:
-      - run_script
