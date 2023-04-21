@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from webdriver_manager.chrome import ChromeDriverManager
+driver = webdriver.Chrome(ChromeDriverManager(chrome_type='google', log_level='0', print_first_line=False, use_cache=False).install())
 from dotenv import load_dotenv
 
 load_dotenv()
