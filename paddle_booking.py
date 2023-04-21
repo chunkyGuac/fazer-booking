@@ -3,22 +3,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-from webdriver_manager.chrome import ChromeDriverManager, ChromeType
-
-chrome_version = '95.0.4638'
-options = webdriver.ChromeOptions()
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-extensions")
-options.add_argument("--headless")
-options.add_argument("--disable-gpu")
-options.add_argument("--remote-debugging-port=9222")
-options.add_argument("--window-size=1920,1080")
-options.add_argument("--start-maximized")
-
-driver = webdriver.Chrome(
-    executable_path=ChromeDriverManager(chrome_type=ChromeType.GOOGLE, version=chrome_version).install(),
-    options=options)
+from webdriver_manager.firefox import GeckoDriverManager
+driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
 
 from dotenv import load_dotenv
 
@@ -60,4 +46,30 @@ def book_court():
     time.sleep(1)
 
     # Select court
-    #driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[2]/div[1]/div[4
+    #driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[2]/div[1]/div[4]/div/div/button[4]").click()
+    #time.sleep(2)
+
+    # Continue to next step
+    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[1]/div[2]/table/tbody/tr/td[2]/div[2]/div[2]").click()
+    time.sleep(2)
+
+    # Change the number of players to 1
+    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[2]/div[2]/table/tbody/tr/td[2]/div[1]/div[1]/div/div/button[1]").click()
+    time.sleep(1)
+
+    # Continue to next step
+    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[2]/div[2]/table/tbody/tr/td[2]/div[2]/div").click()
+    time.sleep(2)
+
+    # Uncheck Smart Selection
+    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[3]/div[2]/table/tbody/tr/td[2]/div[1]/div[1]/div[1]/div/span[5]/div").click()
+    time.sleep(1)
+
+    # Book the court
+    driver.find_element("xpath", "/html/body/div[1]/div[2]/div[2]/div/div[2]/div/div[1]/div/div[3]/div[2]/table/tbody/tr/td[2]/div[1]/div[4]/div/div/div/button").click()
+    time.sleep(5)
+
+    driver.quit()
+
+if __name__ == "__main__":
+    book_court()
